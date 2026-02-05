@@ -6,13 +6,10 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   try {
-    // if (!req.body) {
-    //   return res.status(400).json({ message: "Request body missing" });
-    // }
+    let { email, firstName, lastName, password, role } = req.body;
 
-    let { email, firstName, lastName, password } = req.body;
-    if (!email || !firstName || !lastName || !password) {
-      return res.status(400).json({ message: "All fields are Required" });
+    if (!email || !firstName || !lastName || !password || !role) {
+      return res.status(400).json({ message: "All fields are required" });
     }
 
     email = email.trim().toLowerCase();
@@ -25,21 +22,29 @@ router.post("/register", async (req, res) => {
         .json({ message: "Password must be at least 6 characters" });
     }
 
+    if (!["buyer", "seller"].includes(role.toLowerCase())) {
+      return res.status(400).json({ message: "Role must be buyer or seller" });
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
     await User.create({
       email,
       password: hashedPassword,
       firstName,
       lastName,
+      role: role.toLowerCase(),
     });
+
     res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("Register error:", error);
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -63,7 +68,7 @@ router.post("/login", async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, role: user.role },
       process.env.JWT_TOKEN_SECRET,
       { expiresIn: "1h" },
     );
