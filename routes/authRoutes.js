@@ -8,7 +8,7 @@ router.post("/register", async (req, res) => {
   try {
     let { email, firstName, lastName, password, role } = req.body;
 
-    if (!email || !firstName || !lastName || !password || !role) {
+    if (!email || !firstName || !lastName || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
@@ -22,9 +22,9 @@ router.post("/register", async (req, res) => {
         .json({ message: "Password must be at least 6 characters" });
     }
 
-    if (!["buyer", "seller"].includes(role.toLowerCase())) {
-      return res.status(400).json({ message: "Role must be buyer or seller" });
-    }
+    // if (!["buyer", "seller"].includes(role.toLowerCase())) {
+    //   return res.status(400).json({ message: "Role must be buyer or seller" });
+    // }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
