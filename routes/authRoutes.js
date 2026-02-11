@@ -44,7 +44,7 @@ router.post("/register", async (req, res) => {
       emailVerificationExpires: Date.now() + 1000 * 60 * 60 * 24,
     });
 
-    const verifyLink = `http://localhost:5173/verify-email/${verificationToken}`;
+    const verifyLink = `https://flockr.netlify.app/verify-email/${verificationToken}`;
 
     await transporter.sendMail({
       from: `"Flockr App" <${process.env.EMAIL_USER}>`,
