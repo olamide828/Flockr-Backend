@@ -41,7 +41,15 @@ router.post("/register", async (req, res) => {
       role: role.toLowerCase(),
     });
 
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({
+      user: {
+        id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+        role: newUser.role,
+      },
+    });
   } catch (error) {
     console.error("Register error:", error);
     res.status(500).json({ message: error.message });
@@ -73,7 +81,16 @@ router.post("/login", async (req, res) => {
       { expiresIn: "1h" },
     );
 
-    res.json({ token });
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+      },
+    });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
