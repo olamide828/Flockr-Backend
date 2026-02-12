@@ -4,15 +4,14 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 app.use(express.json());
-app.use(cors({
-  origin: [
-      "http://localhost:5174",
-      "http://localhost:5173",
-      "https://flockr.netlify.app"
-    ],
+app.use(
+  cors({
+    origin: ["https://flockr.netlify.app",
+             "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
-}));
+  }),
+);
 const authRoute = require("./routes/authRoutes");
 const productRoute = require("./routes/productRoutes");
 
@@ -27,5 +26,3 @@ app.use("/products", productRoute);
 app.listen(process.env.PORT, () => {
   console.log(`App is listening`);
 });
-
-
