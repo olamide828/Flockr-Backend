@@ -72,7 +72,7 @@ router.post(
 );
 
 // -------------------- GET ALL PRODUCTS (Feed) --------------------
-router.get("/discover", async (req, res) => {
+router.get("/discover_products", async (req, res) => {
   try {
     let { page = 1, limit = 10, category, search } = req.query;
     page = parseInt(page);

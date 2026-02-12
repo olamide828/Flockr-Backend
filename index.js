@@ -6,8 +6,7 @@ require("dotenv").config();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://flockr.vercel.app",
-             "http://localhost:5173"],
+    origin: ["https://flockr.vercel.app", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   }),
@@ -16,7 +15,7 @@ const authRoute = require("./routes/authRoutes");
 const productRoute = require("./routes/productRoutes");
 
 mongoose
-  .connect(process.env.DATABASE_URL)
+  .connect(process.env.MONGO_DATABASE_URL)
   .then(() => console.log("Database is Running"))
   .catch((error) => console.error("This is our Error:", error));
 
