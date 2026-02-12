@@ -55,6 +55,7 @@ router.post("/register", async (req, res) => {
         subject: "Verify your Flockr account",
         html: `
           <h2>Hello ${firstName}</h2>
+          <h4>Thank you for registering with us!</h4>
           <p>Click below to verify your account:</p>
           <a href="${verifyLink}">Verify Email</a>
           <p>This link expires in 24 hours.</p>
@@ -62,19 +63,20 @@ router.post("/register", async (req, res) => {
       });
     } catch (mailError) {
       await User.deleteOne({ _id: user._id });
-      return res.status(500).json({ message: "Failed to send verification email. Try again." });
+      return res
+        .status(500)
+        .json({ message: "Failed to send verification email. Try again." });
     }
 
     res.status(201).json({
-      message: "Registration successful. Check your email to verify your account.",
+      message:
+        "Registration successful. Check your email to verify your account.",
     });
-
   } catch (error) {
     console.error("Register error:", error);
     res.status(500).json({ message: error.message });
   }
 });
-
 
 router.get("/verify-email/:token", async (req, res) => {
   try {
