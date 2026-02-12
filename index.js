@@ -6,7 +6,7 @@ require("dotenv").config();
 app.use(express.json());
 app.use(
   cors({
-    origin: ["https://flockr.netlify.app",
+    origin: ["https://flockr.vercel.app",
              "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,

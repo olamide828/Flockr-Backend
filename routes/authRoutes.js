@@ -46,7 +46,7 @@ router.post("/register", async (req, res) => {
       emailVerificationExpires: Date.now() + 1000 * 60 * 60 * 24,
     });
 
-    const verifyLink = `https://flockr.netlify.app/verify-email/${verificationToken}`;
+    const verifyLink = `https://flockr.vercel.app/verify-email/${verificationToken}`;
 
     try {
       await resend.emails.send({
